@@ -72,17 +72,14 @@
 
 <script>
 
-    function getTokenFromURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const accessToken = urlParams.get('access_token'); // For implicit flow
-
-  return {  accessToken };
+   function getTokenFromURL() {
+    const fullURL = new URL(window.location.href);
+    const accessToken = fullURL.searchParams.get('access_token');
+    console.log(accessToken);
 }
 
-const {  accessToken } = getTokenFromURL();
-
-console.log('Access Token:', accessToken);
+// Invoke the function
+getTokenFromURL();
 
 
 
