@@ -71,22 +71,31 @@
 
 
 <script>
-    let accessToken;
+      let accessToken; // Declare accessToken globally
 
-function getTokenFromURL() {
-    const fullURL = new URL(window.location.href);
-    const hash = fullURL.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const accessToken = params.get('access_token');
-    console.log(accessToken);
-}
-getTokenFromURL();
+    // Function to extract the access token from the URL hash
+    function getTokenFromURL() {
+        const fullURL = new URL(window.location.href);
+        const hash = fullURL.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        accessToken = params.get('access_token');
+        console.log('Access Token:', accessToken);
 
+        if (!accessToken) {
+            console.error('No access token found in the URL.');
+        }
+    }
 
-function getRecords(num) {
-  const url = "https://kqfueqseqk.execute-api.us-east-1.amazonaws.com/record";
+    // Function to fetch records from the API
+    async function getRecords(num) {
+        if (!accessToken) {
+            console.error('Access token is missing. Cannot fetch records.');
+            return;
+        }
 
-     try {
+        const url = "https://kqfueqseqk.execute-api.us-east-1.amazonaws.com/record";
+
+        try {
             const response = await fetch(url, {
                 method: "GET",
                 headers: {
@@ -130,53 +139,9 @@ function getRecords(num) {
         getTokenFromURL(); // Extract the access token
         getRecords(10);    // Fetch and display 10 records
     });
+
+
 </script>
 
 </body>
 </html>
-
-    
-
-        
-
-    
-
-//   fetch(url)
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error();
-//       }
-//       return response.json();
-//     })
-//     .then((data) => {
-//       let html = "";
-//       const max = Math.min(num, data.length);
-
-//       data.slice(0, max).forEach((record) => {
-//         html += `
-//         <tr>
-//           <td>${record.time}</td>
-//           <td>${record.device_id}</td>
-//           <td>${record.outside_temperature}</td>
-//           <td>${record.aircon_temperature}</td>
-//           <td>${record.co_levels}</td>
-//           <td>${record.co2_levels}</td>
-//           <td>${record.humidity}</td>
-//         </tr>
-//       `;
-//       });
-
-//       document.getElementById("recordsbody").innerHTML = html;
-//     })
-//     .catch((error) => {
-//       console.error("There was a problem with the fetch operation:", error);
-//     });
-// }
-// document.addEventListener("DOMContentLoaded", () => {
-//     getRecords(); 
-//   });
-
-// </script>
-
-// </body>
-// </html>
