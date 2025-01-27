@@ -71,81 +71,112 @@
 
 
 <script>
+    let accessToken;
 
 function getTokenFromURL() {
-    // Create a URL object
     const fullURL = new URL(window.location.href);
-
-    // Extract the hash fragment (everything after the #)
-    const hash = fullURL.hash.substring(1); // Remove the '#' at the beginning
-
-    // Parse the hash fragment into key-value pairs
+    const hash = fullURL.hash.substring(1);
     const params = new URLSearchParams(hash);
-
-    // Get the access_token
     const accessToken = params.get('access_token');
-
-    // Log the access token
     console.log(accessToken);
 }
-
-// Invoke the function
 getTokenFromURL();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    function getRecords(num) {
+function getRecords(num) {
   const url = "https://kqfueqseqk.execute-api.us-east-1.amazonaws.com/record";
 
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-      return response.json();
-    })
-    .then((data) => {
-      let html = "";
-      const max = Math.min(num, data.length);
+     try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`, // Include the access token
+                },
+            });
 
-      data.slice(0, max).forEach((record) => {
-        html += `
-        <tr>
-          <td>${record.time}</td>
-          <td>${record.device_id}</td>
-          <td>${record.outside_temperature}</td>
-          <td>${record.aircon_temperature}</td>
-          <td>${record.co_levels}</td>
-          <td>${record.co2_levels}</td>
-          <td>${record.humidity}</td>
-        </tr>
-      `;
-      });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-      document.getElementById("recordsbody").innerHTML = html;
-    })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
+            const data = await response.json();
+            console.log('API Response:', data);
+
+            let html = "";
+            const max = Math.min(num, data.length);
+
+            data.slice(0, max).forEach((record) => {
+                html += `
+                    <tr>
+                        <td>${record.time}</td>
+                        <td>${record.device_id}</td>
+                        <td>${record.outside_temperature}</td>
+                        <td>${record.aircon_temperature}</td>
+                        <td>${record.co_levels}</td>
+                        <td>${record.co2_levels}</td>
+                        <td>${record.humidity}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById("recordsbody").innerHTML = html;
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    }
+
+    // Call getTokenFromURL and getRecords when the page loads
+    document.addEventListener("DOMContentLoaded", () => {
+        getTokenFromURL(); // Extract the access token
+        getRecords(10);    // Fetch and display 10 records
     });
-}
-document.addEventListener("DOMContentLoaded", () => {
-    getRecords(10); // Fetch and display 10 records
-  });
-
 </script>
 
 </body>
 </html>
+
+    
+
+        
+
+    
+
+//   fetch(url)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error();
+//       }
+//       return response.json();
+//     })
+//     .then((data) => {
+//       let html = "";
+//       const max = Math.min(num, data.length);
+
+//       data.slice(0, max).forEach((record) => {
+//         html += `
+//         <tr>
+//           <td>${record.time}</td>
+//           <td>${record.device_id}</td>
+//           <td>${record.outside_temperature}</td>
+//           <td>${record.aircon_temperature}</td>
+//           <td>${record.co_levels}</td>
+//           <td>${record.co2_levels}</td>
+//           <td>${record.humidity}</td>
+//         </tr>
+//       `;
+//       });
+
+//       document.getElementById("recordsbody").innerHTML = html;
+//     })
+//     .catch((error) => {
+//       console.error("There was a problem with the fetch operation:", error);
+//     });
+// }
+// document.addEventListener("DOMContentLoaded", () => {
+//     getRecords(); 
+//   });
+
+// </script>
+
+// </body>
+// </html>
