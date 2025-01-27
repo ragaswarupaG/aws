@@ -74,6 +74,7 @@
 
    function getTokenFromURL() {
     const fullURL = new URL(window.location.href);
+       console.log(fullURL)
     const accessToken = fullURL.searchParams.get('access_token');
     console.log(accessToken);
 }
