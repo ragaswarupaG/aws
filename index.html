@@ -71,6 +71,34 @@
 
 
 <script>
+
+    function getTokenFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  const accessToken = urlParams.get('access_token'); // For implicit flow
+
+  return {  accessToken };
+}
+
+const {  accessToken } = getTokenFromURL();
+
+console.log('Access Token:', accessToken);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     function getRecords(num) {
   const url = "https://kqfueqseqk.execute-api.us-east-1.amazonaws.com/record";
 
