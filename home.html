@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #fcd527af;
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+        }
+
+
+       
+    </style>
+</head>
+<body>
+
+<h2>Comfy Home Total Stats</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date and Time</th>
+            <th>Device ID</th>
+            <th>Outside Temperature</th>
+            <th>Air conditioning Temperature</th>
+            <th>Carbon Monoxide Levels</th>
+            <th>Carbon Dioxide Levels</th>
+            <th>Humidity</th>
+         
+        </tr>
+    </thead>
+    <tbody id="recordsbody">
+        <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>john.doe@example.com</td>
+            <td>(123) 456-7890</td>
+            <td>123 Main St</td>
+            <td>New York</td>
+            <td>NY</td>
+          
+        </tr>
+       
+      
+    </tbody>
+</table>
+
+
+<script>
+    function getRecords(num) {
+  const url = "https://kqfueqseqk.execute-api.us-east-1.amazonaws.com/record";
+
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error();
+      }
+      return response.json();
+    })
+    .then((data) => {
+      let html = "";
+      const max = Math.min(num, data.length);
+
+      data.slice(0, max).forEach((record) => {
+        html += `
+        <tr>
+          <td>${record.time}</td>
+          <td>${record.device_id}</td>
+          <td>${record.outside_temperature}</td>
+          <td>${record.aircon_temperature}</td>
+          <td>${record.co_levels}</td>
+          <td>${record.co2_levels}</td>
+          <td>${record.humidity}</td>
+        </tr>
+      `;
+      });
+
+      document.getElementById("recordsbody").innerHTML = html;
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+}
+document.addEventListener("DOMContentLoaded", () => {
+    getRecords(10); // Fetch and display 10 records
+  });
+
+</script>
+
+</body>
+</html>
