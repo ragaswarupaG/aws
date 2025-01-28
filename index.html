@@ -112,7 +112,7 @@
             data.slice(0, max).forEach((record) => {
                 html += `
                     <tr>
-                        <td>${record.time.toUTCString()}</td>
+                        <td>${new Date(record.time).toUTCString()}</td>
                         <td>${record.outside_temperature}</td>
                         <td>${record.aircon_temperature}</td>
                         <td>${record.co_levels}</td>
