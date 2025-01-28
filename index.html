@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Records Table</title>
+    <title>Comfy Home Records Table</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +17,6 @@
             border-collapse: collapse;
             margin: 20px 0;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         th, td {
@@ -44,36 +43,30 @@
     <thead>
         <tr>
             <th>Date and Time</th>
-            <th>Device ID</th>
-            <th>Outside Temperature</th>
-            <th>Air conditioning Temperature</th>
-            <th>Carbon Monoxide Levels</th>
-            <th>Carbon Dioxide Levels</th>
-            <th>Humidity</th>
-         
+            <th>Outside Temperature (Degree Celsius)</th>
+            <th>Air conditioning Temperature (Degree Celsius)</th>
+            <th>Carbon Monoxide Levels (PPM)</th>
+            <th>Carbon Dioxide Levels (PPM)</th>
+            <th>Humidity (%)</th>
         </tr>
     </thead>
+    
     <tbody id="recordsbody">
         <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td>john.doe@example.com</td>
-            <td>(123) 456-7890</td>
-            <td>123 Main St</td>
-            <td>New York</td>
-            <td>NY</td>
-          
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
         </tr>
-       
-      
     </tbody>
 </table>
 
 
 <script>
-      let accessToken; // Declare accessToken globally
+      let accessToken; 
 
-    // Function to extract the access token from the URL hash
     function getTokenFromURL() {
         const fullURL = new URL(window.location.href);
         const hash = fullURL.hash.substring(1);
@@ -86,7 +79,6 @@
         }
     }
 
-    // Function to fetch records from the API
     async function getRecords(num) {
         if (!accessToken) {
             console.error('Access token is missing. Cannot fetch records.');
@@ -100,7 +92,7 @@
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`, // Include the access token
+                    Authorization: `Bearer ${accessToken}`,
                 },
             });
 
@@ -130,14 +122,13 @@
 
             document.getElementById("recordsbody").innerHTML = html;
         } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
+            console.error(error);
         }
     }
 
-    // Call getTokenFromURL and getRecords when the page loads
     document.addEventListener("DOMContentLoaded", () => {
-        getTokenFromURL(); // Extract the access token
-        getRecords(10);    // Fetch and display 10 records
+        getTokenFromURL(); 
+        getRecords();   
     });
 
 
