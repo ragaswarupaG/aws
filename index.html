@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script
+      src="https://kit.fontawesome.com/17679a8283.js"
+      crossorigin="anonymous"></script>
     <title>Comfy Home Records Table</title>
     <style>
         body {
@@ -31,6 +34,34 @@
             font-weight: bold;
         }
 
+         .search-bar {
+        display: flex;
+        align-items: center;
+      }
+
+      .custom-search-input {
+        height: 50px;
+        width: 500px;
+        border-radius: 10px;
+        padding-left: 50px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .custom-search-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .custom-search-wrapper i {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #888;
+      }
+
 
        
     </style>
@@ -38,6 +69,17 @@
 <body>
 
 <h2>Comfy Home Total Stats</h2>
+    <form class="search-bar">
+      <div class="custom-search-wrapper">
+        <i class="fa fa-search" aria-hidden="true"></i>
+
+        <input
+          class="custom-search-input"
+          type="search"
+          placeholder="Search for your records here!"
+        />
+      </div>
+    </form>
 
 <table>
     <thead>
